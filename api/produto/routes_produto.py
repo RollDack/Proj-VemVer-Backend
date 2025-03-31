@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from config import db
+from config import db                                                   #LEMBRAR DE COLOCAR UM EXCEPTION NO MODEL E TRY EXCEPT NO ROUTES(TRATAMENTO DE ERRO)
 from model_produto import Produto
 from estoque.model_estoque import Estoque
 

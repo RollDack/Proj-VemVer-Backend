@@ -5,6 +5,9 @@ from model_cliente import Cliente
 cliente_blueprint = Blueprint('clientes', __name__)
 
 @cliente_blueprint.route("/clientes", methods=['GET']) #lista todos os clientes
+def listar_clientes():
+    clientes = Cliente.query.all()
+    return jsonify([cliente.to_dict() for cliente in clientes])
 
 @cliente_blueprint.route('/clientes/<int:id_cliente>', methods=['GET']) #obtém detalhes de um cliente específico
 

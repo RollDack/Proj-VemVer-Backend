@@ -5,7 +5,7 @@ from model_estoque import Estoque
 estoque_blueprint = Blueprint('estoque', __name__)
 
 
-@estoque_blueprint.routes('/estoque', methods=['GET'])#lista todos os itens no estoque
+@estoque_blueprint.route('/estoque', methods=['GET'])#lista todos os itens no estoque
 
 @estoque_blueprint.route('/estoque/<int:id_produto>', methods=['GET'])#obtem informações de um produto especifico no estoque
 
