@@ -1,4 +1,6 @@
-
+from flask import Blueprint, request, jsonify
+from config import db
+from model_estoque import Estoque
 
 estoque_blueprint = Blueprint('estoque', __name__)
 

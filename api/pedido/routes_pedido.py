@@ -1,4 +1,6 @@
-
+from flask import Blueprint, request, jsonify
+from config import db
+from model_pedido import Pedido
 
 pedidos_blueprint = Blueprint('pedidos', __name__)
 
