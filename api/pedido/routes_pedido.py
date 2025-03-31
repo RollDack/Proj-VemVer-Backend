@@ -21,7 +21,7 @@ def obter_pedido(id_pedido):
 
 @pedidos_blueprint.route('/pedidos', methods=['POST'])#cria um novo pedido
 def criar_pedido():
-    dados = request.get_json()
+    dados = request.json()
     id_cliente = dados.get('id_cliente')
     id_produto = dados.get('id_produto')
     
@@ -49,7 +49,7 @@ def atualizar_pedido(id_pedido):
     if not pedido:
         return jsonify({'erro': 'Pedido não encontrado'}), 404
     
-    dados = request.get_json()
+    dados = request.json()
     id_produto = dados.get('id_produto')
     if id_produto:
         produto = Produto.query.get(id_produto)

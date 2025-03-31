@@ -10,16 +10,22 @@ produtos_blueprint = Blueprint('produtos', __name__)
 @produtos_blueprint.route('/produtos', methods=['GET'])#lista todos os produtos
 def listar_produtos():
     produtos = Produto.query.all()
-    return jsonify([produto.to_dict() for produto in produtos])
+    return jsonify([
+        {**produto.to_dict(), 'quantidade_estoque': Estoque.query.filter_by(id_produto=produto.id).first().quantidade_produtos if Estoque.query.filter_by(id_produto=produto.id).first() else 0} 
+        for produto in produtos
+    ])
 
 @produtos_blueprint.route('/produtos/<int:id_produto>', methods=['GET'])#obtem detalhes de um produto especifico
-def obter_produto(id_produto):
+def obter_produto_id(id_produto):
     produto = Produto.query.get(id_produto)
-    return jsonify(produto.to_dict()) if produto else (jsonify({'erro': 'Produto não encontrado'}), 404)
+    if not produto:
+        return jsonify({'erro': 'Produto não encontrado'}), 404
+    estoque = Estoque.query.filter_by(id_produto=id_produto).first()
+    return jsonify({**produto.to_dict(), 'quantidade_estoque': estoque.quantidade_produtos if estoque else 0})
 
 @produtos_blueprint.route('/produtos', methods=['POST'])#adiciona um novo produto
 def criar_produto():
-    dados = request.get_json()
+    dados = request.json()
     novo_produto = Produto(**dados)
     db.session.add(novo_produto)
     db.session.commit()
@@ -30,7 +36,7 @@ def atualizar_produto(id_produto):
     produto = Produto.query.get(id_produto)
     if not produto:
         return jsonify({'erro': 'Produto não encontrado'}), 404
-    dados = request.get_json()
+    dados = request.json()
     for chave, valor in dados.items():
         setattr(produto, chave, valor)
     db.session.commit()
