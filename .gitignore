@@ -1,0 +1,8 @@
+/venv
+/__pycache__
+/api/__pycache__
+/api/cliente/__pycache__
+/api/estoque/__pycache__
+/api/pedido/__pycache__
+/api/funcionario/__pycache__
+/api/produto/__pycache__

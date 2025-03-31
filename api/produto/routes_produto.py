@@ -1,21 +1,22 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,render_template,redirect, url_for
 from config import db                                                   #LEMBRAR DE COLOCAR UM EXCEPTION NO MODEL E TRY EXCEPT NO ROUTES(TRATAMENTO DE ERRO)
-from model_produto import Produto
-from estoque.model_estoque import Estoque
+from api.produto.model_produto import Produto
+from api.estoque.model_estoque import Estoque
 
 
 produtos_blueprint = Blueprint('produtos', __name__)
 
 
-@produtos_blueprint.route('/produtos', methods=['GET'])#lista todos os produtos
+@produtos_blueprint.route('/produtos', methods=['GET'])
 def listar_produtos():
     produtos = Produto.query.all()
     return jsonify([
-        {**produto.to_dict(), 'quantidade_estoque': Estoque.query.filter_by(id_produto=produto.id).first().quantidade_produtos if Estoque.query.filter_by(id_produto=produto.id).first() else 0} 
+        {**produto.to_dict(), 'quantidade_estoque': Estoque.query.filter_by(id_produto=produto.id).first().quantidade_produtos 
+         if Estoque.query.filter_by(id_produto=produto.id).first() else 0} 
         for produto in produtos
     ])
 
-@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['GET'])#obtem detalhes de um produto especifico
+@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['GET'])
 def obter_produto_id(id_produto):
     produto = Produto.query.get(id_produto)
     if not produto:
@@ -23,26 +24,26 @@ def obter_produto_id(id_produto):
     estoque = Estoque.query.filter_by(id_produto=id_produto).first()
     return jsonify({**produto.to_dict(), 'quantidade_estoque': estoque.quantidade_produtos if estoque else 0})
 
-@produtos_blueprint.route('/produtos', methods=['POST'])#adiciona um novo produto
+@produtos_blueprint.route('/produtos', methods=['POST'])
 def criar_produto():
-    dados = request.json()
+    dados = request.get_json()
     novo_produto = Produto(**dados)
     db.session.add(novo_produto)
     db.session.commit()
     return jsonify(novo_produto.to_dict()), 201
 
-@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['PUT'])#atualiza informações de um produto
+@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['PUT'])
 def atualizar_produto(id_produto):
     produto = Produto.query.get(id_produto)
     if not produto:
         return jsonify({'erro': 'Produto não encontrado'}), 404
-    dados = request.json()
+    dados = request.get_json()
     for chave, valor in dados.items():
         setattr(produto, chave, valor)
     db.session.commit()
     return jsonify(produto.to_dict())
 
-@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['DELETE'])#remove um produto
+@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['DELETE'])
 def deletar_produto(id_produto):
     produto = Produto.query.get(id_produto)
     if not produto:
@@ -51,7 +52,7 @@ def deletar_produto(id_produto):
     db.session.commit()
     return jsonify({'mensagem': 'Produto deletado com sucesso'})
 
-@produtos_blueprint.route('/produtos/<int:id_produto>/estoque', methods=['GET'])#obtém a quantidade disponivel do produto no estoque
+@produtos_blueprint.route('/produtos/<int:id_produto>/estoque', methods=['GET'])
 def obter_estoque_produto(id_produto):
     produto = Produto.query.get(id_produto)
     
