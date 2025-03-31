@@ -17,7 +17,7 @@ def obter_funcionario(id_funcionario):
 
 @funcinario_blueprint.route('/funcionarios', methods=['POST']) #adiciona um novo funcionario
 def criar_funcionario():
-    dados = request.get_json()
+    dados = request.json()
     novo_funcionario = Funcionario(**dados)
     db.session.add(novo_funcionario)
     db.session.commit()
@@ -28,7 +28,7 @@ def atualizar_funcionario(id_funcionario):
     funcionario = Funcionario.query.get(id_funcionario)
     if not funcionario:
         return jsonify({'erro': 'Funcionário não encontrado'}), 404
-    dados = request.get_json()
+    dados = request.json()
     for chave, valor in dados.items():
         setattr(funcionario, chave, valor)
     db.session.commit()
