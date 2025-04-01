@@ -11,8 +11,7 @@ class Cliente(db.Model):
     telefone = db.Column(db.String(11), nullable=False)
     pedidos = db.relationship("Pedido", backref="cliente", lazy=True)
 
-    def __init__(self, id, cpf, nome, idade, email, cep, telefone):
-        self.id = id
+    def __init__(self, cpf, nome, idade, email, cep, telefone):
         self.cpf = cpf
         self.nome = nome
         self.idade = idade

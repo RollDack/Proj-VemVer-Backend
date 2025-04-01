@@ -8,8 +8,7 @@ class Pedido(db.Model):
     valor_total = db.Column(db.Float, nullable=False)
     data_pedido = db.Column(db.Date, nullable=False)
 
-    def __init__(self, id, id_cliente, id_produto, valor_total, data_pedido):
-        self.id = id
+    def __init__(self, id_cliente, id_produto, valor_total, data_pedido):
         self.id_cliente = id_cliente
         self.id_produto = id_produto
         self.valor_total = valor_total #provavelmente terá um método pra calcular isso

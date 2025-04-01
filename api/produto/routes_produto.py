@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify,render_template,redirect, url_for
 from config import db                                                   #LEMBRAR DE COLOCAR UM EXCEPTION NO MODEL E TRY EXCEPT NO ROUTES(TRATAMENTO DE ERRO)
-from api.produto.model_produto import Produto
-from api.estoque.model_estoque import Estoque
+from produto.model_produto import Produto
+from estoque.model_estoque import Estoque
 
 
 produtos_blueprint = Blueprint('produtos', __name__)
