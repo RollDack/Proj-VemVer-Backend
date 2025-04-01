@@ -11,7 +11,7 @@ def listar_clientes():
     return jsonify([cliente.to_dict() for cliente in clientes])
 
 @cliente_blueprint.route('/clientes/<int:id_cliente>', methods=['GET']) 
-def obter_cliente(id_cliente):
+def obter_cliente_id(id_cliente):
     cliente = Cliente.query.get(id_cliente)
     return jsonify(cliente.to_dict()) if cliente else (jsonify({'erro': 'Cliente não encontrado'}), 404)
 

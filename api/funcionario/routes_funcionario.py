@@ -10,7 +10,7 @@ def listar_funcionarios():
     return jsonify([func.to_dict() for func in funcionarios])
 
 @funcinario_blueprint.route('/funcionarios/<int:id_funcionario>', methods=['GET']) 
-def obter_funcionario(id_funcionario):
+def obter_funcionario_id(id_funcionario):
     funcionario = Funcionario.query.get(id_funcionario)
     return jsonify(funcionario.to_dict()) if funcionario else (jsonify({'erro': 'Funcionário não encontrado'}), 404)
 

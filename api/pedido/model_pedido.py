@@ -15,4 +15,8 @@ class Pedido(db.Model):
         self.data_pedido = data_pedido #outro método provavelmente
 
     def to_dict(self):
-        return{'id': self.id, 'id_cliente': self.id_cliente, 'id_produto': self.id_produto, 'valor_total': self.valor_total, 'data_pedido': self.data_pedido}    
+        return{'id': self.id, 'id_cliente': self.id_cliente, 'id_produto': self.id_produto, 'valor_total': self.valor_total, 'data_pedido': self.data_pedido}
+
+
+class PedidoNaoEncontrado(Exception):
+  pass        

@@ -15,7 +15,7 @@ def listar_pedidos():
 
 
 @pedidos_blueprint.route('/pedidos/<int:id_pedido>', methods=['GET'])
-def obter_pedido(id_pedido):
+def obter_pedido_id(id_pedido):
     pedido = Pedido.query.get(id_pedido)
     return jsonify(pedido.to_dict()) if pedido else (jsonify({'erro': 'Pedido não encontrado'}), 404)
 

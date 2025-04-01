@@ -13,4 +13,8 @@ class Produto(db.Model):
         self.preco = preco
 
     def to_dict(self):
-        return{'id': self.id, 'nome': self.nome, 'tipo': self.tipo, 'preco': self.preco}    
+        return{'id': self.id, 'nome': self.nome, 'tipo': self.tipo, 'preco': self.preco}
+
+
+class ProdutoNaoEncontrado(Exception):
+  pass

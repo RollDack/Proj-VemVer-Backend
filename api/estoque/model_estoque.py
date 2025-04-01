@@ -10,4 +10,8 @@ class Estoque(db.Model):
         self.quantidade_produtos = quantidade_produto
 
     def to_dict(self):
-        return{'id_produto': self.id_produto, 'quantidade_produto': self.quantidade_produtos}    
+        return{'id_produto': self.id_produto, 'quantidade_produto': self.quantidade_produtos}
+
+
+class EstoqueNaoEncontrado(Exception):
+  pass

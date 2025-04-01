@@ -20,4 +20,9 @@ class Cliente(db.Model):
         self.telefone = telefone
 
     def to_dict(self):
-        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone}    
+        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone}
+
+
+class ClienteNaoEncontrado(Exception):
+  pass
+       
