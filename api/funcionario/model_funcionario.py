@@ -11,8 +11,7 @@ class Funcionario(db.Model):
     telefone= db.Column(db.String(11), nullable=False)
     salario = db.Column(db.Float, nullable=False)
 
-    def __init__(self, id, cpf, nome, idade, email, cep, telefone, salario):
-        self.id = id
+    def __init__(self, cpf, nome, idade, email, cep, telefone, salario):
         self.cpf = cpf
         self.nome = nome
         self.idade = idade

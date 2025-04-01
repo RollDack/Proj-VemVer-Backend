@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify,render_template,redirect, url_for
 from config import db
-from api.pedido.model_pedido import Pedido
-from api.cliente.model_cliente import Cliente
-from api.produto.model_produto import Produto
-from api.estoque.model_estoque import Estoque
+from pedido.model_pedido import Pedido
+from cliente.model_cliente import Cliente
+from produto.model_produto import Produto
+from estoque.model_estoque import Estoque
 
 pedidos_blueprint = Blueprint('pedidos', __name__)
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify,render_template,redirect, url_for
 from config import db
-from api.estoque.model_estoque import Estoque
+from estoque.model_estoque import Estoque
 
 estoque_blueprint = Blueprint('estoque', __name__)
 

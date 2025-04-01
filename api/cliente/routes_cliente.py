@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify,render_template,redirect, url_for
 from config import db
-from api.cliente.model_cliente import Cliente
-from api.pedido.model_pedido import Pedido
+from cliente.model_cliente import Cliente
+from pedido.model_pedido import Pedido
 
 cliente_blueprint = Blueprint('clientes', __name__)
 

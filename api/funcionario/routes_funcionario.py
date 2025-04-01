@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify,render_template,redirect, url_for
 from config import db
-from api.funcionario.model_funcionario import Funcionario
+from funcionario.model_funcionario import Funcionario
 
 funcinario_blueprint = Blueprint('funcionarios', __name__)
 
