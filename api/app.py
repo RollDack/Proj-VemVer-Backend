@@ -11,11 +11,11 @@ configure_swagger(app)
 with app.app_context():
     db.create_all()
 
-app.register_blueprint(cliente_blueprint, url_prefix='/api')
-app.register_blueprint(estoque_blueprint, url_prefix='/api')
-app.register_blueprint(funcinario_blueprint, url_prefix='/api')
-app.register_blueprint(pedidos_blueprint, url_prefix='/api')
-app.register_blueprint(produtos_blueprint, url_prefix='/api')
+app.register_blueprint(cliente_blueprint, url_prefix='/clientes')
+app.register_blueprint(estoque_blueprint, url_prefix='/estoque')
+app.register_blueprint(funcinario_blueprint, url_prefix='/funcionarios')
+app.register_blueprint(pedidos_blueprint, url_prefix='/pedidos')
+app.register_blueprint(produtos_blueprint, url_prefix='/produtos')
 
 
 if __name__ == '__main__':

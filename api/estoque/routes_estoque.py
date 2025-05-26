@@ -5,7 +5,7 @@ from estoque.model_estoque import Estoque
 estoque_blueprint = Blueprint('estoque', __name__)
 
 
-@estoque_blueprint.route('/estoque/<int:id_produto>', methods=['PUT'])
+@estoque_blueprint.route('/atualizar/<int:id_produto>', methods=['PUT'])
 def atualizar_estoque(id_produto):
     estoque = Estoque.query.filter_by(id_produto=id_produto).first()
     if not estoque:

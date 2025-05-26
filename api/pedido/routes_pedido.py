@@ -8,18 +8,18 @@ from estoque.model_estoque import Estoque
 pedidos_blueprint = Blueprint('pedidos', __name__)
 
 
-@pedidos_blueprint.route('/pedidos', methods=['GET'])
+@pedidos_blueprint.route('/', methods=['GET'])
 def listar_pedidos():
     pedidos = Pedido.query.all()
     return jsonify([pedido.to_dict() for pedido in pedidos])
 
 
-@pedidos_blueprint.route('/pedidos/<int:id_pedido>', methods=['GET'])
+@pedidos_blueprint.route('/obter/<int:id_pedido>', methods=['GET'])
 def obter_pedido_id(id_pedido):
     pedido = Pedido.query.get(id_pedido)
     return jsonify(pedido.to_dict()) if pedido else (jsonify({'erro': 'Pedido não encontrado'}), 404)
 
-@pedidos_blueprint.route('/pedidos', methods=['POST'])
+@pedidos_blueprint.route('/novo_pedido', methods=['POST'])
 def criar_pedido():
     dados = request.get_json()
     id_cliente = dados.get('id_cliente')
@@ -43,7 +43,7 @@ def criar_pedido():
     db.session.commit()
     return jsonify(novo_pedido.to_dict()), 201
 
-@pedidos_blueprint.route('/pedidos/<int:id_pedido>', methods=["PUT"])
+@pedidos_blueprint.route('/atualizar/<int:id_pedido>', methods=["PUT"])
 def atualizar_pedido(id_pedido):
     pedido = Pedido.query.get(id_pedido)
     if not pedido:
@@ -70,7 +70,7 @@ def atualizar_pedido(id_pedido):
     db.session.commit()
     return jsonify(pedido.to_dict())
 
-@pedidos_blueprint.route('/pedidos/<int:id_pedido>', methods=['DELETE'])
+@pedidos_blueprint.route('/cancelar/<int:id_pedido>', methods=['DELETE'])
 def cancelar_pedido(id_pedido):
     pedido = Pedido.query.get(id_pedido)
     if not pedido:
