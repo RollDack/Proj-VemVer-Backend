@@ -7,7 +7,7 @@ from estoque.model_estoque import Estoque
 produtos_blueprint = Blueprint('produtos', __name__)
 
 
-@produtos_blueprint.route('/produtos', methods=['GET'])
+@produtos_blueprint.route('/', methods=['GET'])
 def listar_produtos():
     produtos = Produto.query.all()
     return jsonify([
@@ -16,7 +16,7 @@ def listar_produtos():
         for produto in produtos
     ])
 
-@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['GET'])
+@produtos_blueprint.route('/obter/<int:id_produto>', methods=['GET'])
 def obter_produto_id(id_produto):
     produto = Produto.query.get(id_produto)
     if not produto:
@@ -24,7 +24,7 @@ def obter_produto_id(id_produto):
     estoque = Estoque.query.filter_by(id_produto=id_produto).first()
     return jsonify({**produto.to_dict(), 'quantidade_estoque': estoque.quantidade_produtos if estoque else 0})
 
-@produtos_blueprint.route('/produtos', methods=['POST'])
+@produtos_blueprint.route('/criar_produto', methods=['POST'])
 def criar_produto():
     dados = request.get_json()
     novo_produto = Produto(**dados)
@@ -32,7 +32,7 @@ def criar_produto():
     db.session.commit()
     return jsonify(novo_produto.to_dict()), 201
 
-@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['PUT'])
+@produtos_blueprint.route('/atualizar/<int:id_produto>', methods=['PUT'])
 def atualizar_produto(id_produto):
     produto = Produto.query.get(id_produto)
     if not produto:
@@ -43,7 +43,7 @@ def atualizar_produto(id_produto):
     db.session.commit()
     return jsonify(produto.to_dict())
 
-@produtos_blueprint.route('/produtos/<int:id_produto>', methods=['DELETE'])
+@produtos_blueprint.route('/deletar/<int:id_produto>', methods=['DELETE'])
 def deletar_produto(id_produto):
     produto = Produto.query.get(id_produto)
     if not produto:
@@ -52,7 +52,7 @@ def deletar_produto(id_produto):
     db.session.commit()
     return jsonify({'mensagem': 'Produto deletado com sucesso'})
 
-@produtos_blueprint.route('/produtos/<int:id_produto>/estoque', methods=['GET'])
+@produtos_blueprint.route('/obter/<int:id_produto>/estoque', methods=['GET'])
 def obter_estoque_produto(id_produto):
     produto = Produto.query.get(id_produto)
     
