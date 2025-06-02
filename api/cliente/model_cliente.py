@@ -12,16 +12,17 @@ class Cliente(db.Model):
     telefone = db.Column(db.String(11), nullable=False)
     pedidos = db.relationship("Pedido", backref="cliente", lazy=True)
 
-    def __init__(self, cpf, nome, idade, email, cep, telefone):
+    def __init__(self, cpf, nome, senha, idade, email, cep, telefone):
         self.cpf = cpf
         self.nome = nome
+        self.senha = senha
         self.idade = idade
         self.email = email
         self.cep = cep
         self.telefone = telefone
 
     def to_dict(self):
-        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone}
+        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'senha': self.senha 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone}
 
 
 class ClienteNaoEncontrado(Exception):

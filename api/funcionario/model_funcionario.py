@@ -12,9 +12,10 @@ class Funcionario(db.Model):
     telefone= db.Column(db.String(11), nullable=False)
     salario = db.Column(db.Float, nullable=False)
 
-    def __init__(self, cpf, nome, idade, email, cep, telefone, salario):
+    def __init__(self, cpf, nome, senha, idade, email, cep, telefone, salario):
         self.cpf = cpf
         self.nome = nome
+        self.senha = senha
         self.idade = idade
         self.email = email
         self.cep = cep
@@ -22,7 +23,7 @@ class Funcionario(db.Model):
         self.salario = salario
 
     def to_dict(self):
-        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone, 'salario': self.salario}
+        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'senha': self.senha 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone, 'salario': self.salario}
 
 
 class FuncionarioNaoEncontrado(Exception):
