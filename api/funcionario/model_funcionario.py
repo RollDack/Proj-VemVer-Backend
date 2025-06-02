@@ -23,7 +23,7 @@ class Funcionario(db.Model):
         self.salario = salario
 
     def to_dict(self):
-        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'senha': self.senha 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone, 'salario': self.salario}
+        return{'id': self.id, 'cpf': self.cpf, 'nome': self.nome, 'senha': self.senha, 'idade': self.idade, 'email': self.email, 'cep': self.cep, 'telefone': self.telefone, 'salario': self.salario}
 
 
 class FuncionarioNaoEncontrado(Exception):
