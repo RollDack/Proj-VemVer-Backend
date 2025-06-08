@@ -5,15 +5,16 @@ class Produto(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)
     preco = db.Column(db.Float, nullable=False)
-    estoque = db.relationship("Estoque", backref="produto", lazy=True)
+    quantidade = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, nome, tipo, preco):
+    def __init__(self, nome, tipo, preco, quantidade):
         self.nome = nome
         self.tipo = tipo
         self.preco = preco
+        self.quantidade = quantidade
 
     def to_dict(self):
-        return{'id': self.id, 'nome': self.nome, 'tipo': self.tipo, 'preco': self.preco}
+        return{'id': self.id, 'nome': self.nome, 'tipo': self.tipo, 'preco': self.preco, 'quantidade': self.quantidade}
 
 
 class ProdutoNaoEncontrado(Exception):

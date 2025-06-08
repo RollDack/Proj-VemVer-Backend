@@ -9,13 +9,13 @@ def listar_funcionarios():
     funcionarios = Funcionario.query.all()
     return jsonify([func.to_dict() for func in funcionarios])
 
-@funcinario_blueprint.route('/obter/<int:id_funcionario>', methods=['GET']) 
+@funcinario_blueprint.route('/<int:id_funcionario>', methods=['GET']) 
 def obter_funcionario_id(id_funcionario):
     funcionario = Funcionario.query.get(id_funcionario)
     return jsonify(funcionario.to_dict()) if funcionario else (jsonify({'erro': 'Funcionário não encontrado'}), 404)
 
 
-@funcinario_blueprint.route('/criar_funcionario', methods=['POST']) 
+@funcinario_blueprint.route('/', methods=['POST']) 
 def criar_funcionario():
     dados = request.get_json()
     novo_funcionario = Funcionario(**dados)
@@ -23,7 +23,7 @@ def criar_funcionario():
     db.session.commit()
     return jsonify(novo_funcionario.to_dict()), 201
 
-@funcinario_blueprint.route('/atualizar/<int:id_funcionario>', methods=['PUT'])
+@funcinario_blueprint.route('/<int:id_funcionario>', methods=['PUT'])
 def atualizar_funcionario(id_funcionario):
     funcionario = Funcionario.query.get(id_funcionario)
     if not funcionario:
@@ -35,7 +35,7 @@ def atualizar_funcionario(id_funcionario):
     return jsonify(funcionario.to_dict())
 
 
-@funcinario_blueprint.route('/deletar/<int:id_funcionario>', methods=['DELETE'])
+@funcinario_blueprint.route('/<int:id_funcionario>', methods=['DELETE'])
 def deletar_funcionario(id_funcionario):
     funcionario = Funcionario.query.get(id_funcionario)
     if not funcionario:
