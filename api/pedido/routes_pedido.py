@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from config import db
 from pedido.model_pedido import Pedido
 from produto.model_produto import Produto
+from datetime import datetime
 
 pedidos_blueprint = Blueprint('pedidos', __name__)
 
@@ -18,38 +19,48 @@ def obter_pedido(id_pedido):
 @pedidos_blueprint.route('/', methods=['POST'])
 def criar_pedido():
     dados = request.get_json()
-    produto = Produto.query.get(dados['id_produto'])
+
+    try:
+        id_cliente = dados['id_cliente']
+        id_produto = dados['id_produto']
+        valor_total = dados['valor_total']
+        data_pedido_str = dados['data_pedido']
+        data_pedido = datetime.strptime(data_pedido_str, "%Y-%m-%d").date()
+    except KeyError as e:
+        return jsonify({'erro': f'Campo obrigatório ausente: {e.args[0]}'}), 400
+
+    produto = Produto.query.get(id_produto)
     if not produto:
         return jsonify({'erro': 'Produto não encontrado'}), 404
-    if produto.quantidade < dados['quantidade']:
+    if produto.quantidade <= 0:
         return jsonify({'erro': 'Estoque insuficiente'}), 400
 
     novo_pedido = Pedido(
-        id_cliente=dados['id_cliente'],
-        id_produto=dados['id_produto'],
-        quantidade=dados['quantidade'],
-        status=dados.get('status', 'pendente')
+        id_cliente=id_cliente,
+        id_produto=id_produto,
+        valor_total=valor_total,
+        data_pedido=data_pedido
     )
-    produto.quantidade -= dados['quantidade']
+
+    produto.quantidade -= 1
     db.session.add(novo_pedido)
     db.session.commit()
+
     return jsonify(novo_pedido.to_dict()), 201
 
 @pedidos_blueprint.route('/<int:id_pedido>', methods=['PUT'])
 def atualizar_pedido(id_pedido):
     pedido = Pedido.query.get_or_404(id_pedido)
     dados = request.get_json()
-    nova_quantidade = dados.get('quantidade', pedido.quantidade)
 
-    if nova_quantidade != pedido.quantidade:
-        produto = Produto.query.get(pedido.id_produto)
-        diferenca = nova_quantidade - pedido.quantidade
-        if produto.quantidade < diferenca:
-            return jsonify({'erro': 'Estoque insuficiente'}), 400
-        produto.quantidade -= diferenca
+    if 'valor_total' in dados:
+        pedido.valor_total = dados['valor_total']
+    if 'data_pedido' in dados:
+        try:
+            pedido.data_pedido = datetime.strptime(dados['data_pedido'], "%Y-%m-%d").date()
+        except ValueError:
+            return jsonify({'erro': 'Formato de data inválido. Use YYYY-MM-DD.'}), 400
 
-    pedido.quantidade = nova_quantidade
-    pedido.status = dados.get('status', pedido.status)
     db.session.commit()
     return jsonify(pedido.to_dict())
 
@@ -57,7 +68,9 @@ def atualizar_pedido(id_pedido):
 def deletar_pedido(id_pedido):
     pedido = Pedido.query.get_or_404(id_pedido)
     produto = Produto.query.get(pedido.id_produto)
-    produto.quantidade += pedido.quantidade
+    if produto:
+        produto.quantidade += 1  
+
     db.session.delete(pedido)
     db.session.commit()
     return jsonify({'mensagem': 'Pedido cancelado e estoque atualizado'})
