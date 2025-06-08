@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from pedido.routes_pedido import listar_pedidos,obter_pedido_id,criar_pedido,atualizar_pedido,cancelar_pedido
+from pedido.routes_pedido import listar_pedidos,obter_pedido,criar_pedido,atualizar_pedido,deletar_pedido
 
 
 
